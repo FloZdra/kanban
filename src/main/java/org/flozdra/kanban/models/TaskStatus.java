@@ -15,7 +15,10 @@ public class TaskStatus {
     private Set<Task> tasks;
 
     public TaskStatus() {
+    }
 
+    public TaskStatus(String label) {
+        this.label = label;
     }
 
     public Long getId() {

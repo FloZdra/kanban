@@ -11,16 +11,24 @@ public class ChangeLog {
 
     private Date occurred;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Task task;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private TaskStatus source;
 
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private TaskStatus target;
 
     public ChangeLog() {
+    }
+
+    public ChangeLog(Date occurred, Task task, TaskStatus source, TaskStatus target) {
+        this.occurred = occurred;
+        this.task = task;
+        this.source = source;
+        this.target = target;
     }
 
     public Long getId() {

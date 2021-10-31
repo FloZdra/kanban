@@ -2,10 +2,10 @@ package org.flozdra.kanban.models;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
-//import javax.validation.constraints.Email;
-//import javax.validation.constraints.NotBlank;
-//import javax.validation.constraints.Size;
+import java.util.Set;
+// import javax.validation.constraints.Email;
+// import javax.validation.constraints.NotBlank;
+// import javax.validation.constraints.Size;
 
 @Entity
 public class Developer {
@@ -29,8 +29,8 @@ public class Developer {
 
     private Date startContract;
 
-    @ManyToMany(mappedBy = "developers", cascade = CascadeType.DETACH)
-    private List<Task> tasks;
+    @ManyToMany(mappedBy = "developers", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    private Set<Task> tasks;
 
     public Developer() {
     }
@@ -91,11 +91,11 @@ public class Developer {
         this.startContract = startContract;
     }
 
-    public List<Task> getTasks() {
+    public Set<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Task> tasks) {
+    public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
     }
 

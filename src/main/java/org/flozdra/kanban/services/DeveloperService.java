@@ -1,17 +1,37 @@
 package org.flozdra.kanban.services;
 
+import org.flozdra.kanban.dao.DeveloperDao;
 import org.flozdra.kanban.models.Developer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
-public interface DeveloperService {
+@Service
+public class DeveloperService {
+    @Autowired
+    private DeveloperDao developerDao;
 
-    Developer createDeveloper(Developer developer);
+    public Developer createDeveloper(Developer developer) {
+        return developerDao.save(developer);
+    }
 
-    List<Developer> getDevelopers();
+    public Collection<Developer> getDevelopers() {
+        return developerDao.findAll();
+    }
 
-    Optional<Developer> getDeveloperById(Long id);
+    public Optional<Developer> getDeveloperById(Long id) {
+        return developerDao.findById(id);
+    }
 
-//    List<Developer> findDeveloper(String search);
+    public boolean deleteDeveloper(Long id) {
+        Optional<Developer> developer = developerDao.findById(id);
+
+        if (developer.isEmpty()) {
+            return false;
+        }
+        developerDao.delete(developer.get());
+        return true;
+    }
 }

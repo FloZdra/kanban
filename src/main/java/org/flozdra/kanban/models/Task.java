@@ -3,6 +3,7 @@ package org.flozdra.kanban.models;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Task {
@@ -18,20 +19,27 @@ public class Task {
 
     private Date created;
 
-    @ManyToMany(cascade = CascadeType.DETACH)
-    private List<Developer> developers;
+    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinTable
+    private Set<Developer> developers;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private TaskType type;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private TaskStatus status;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "task", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private List<ChangeLog> changeLogs;
 
     public Task() {
+    }
 
+    public Task(String title, Integer nbHoursForecast, Integer nbHoursReal, Date created) {
+        this.title = title;
+        this.nbHoursForecast = nbHoursForecast;
+        this.nbHoursReal = nbHoursReal;
+        this.created = created;
     }
 
     public Long getId() {
@@ -90,11 +98,11 @@ public class Task {
         this.created = created;
     }
 
-    public List<Developer> getDevelopers() {
+    public Set<Developer> getDevelopers() {
         return developers;
     }
 
-    public void setDevelopers(List<Developer> developers) {
+    public void setDevelopers(Set<Developer> developers) {
         this.developers = developers;
     }
 
@@ -104,5 +112,13 @@ public class Task {
 
     public void setChangeLogs(List<ChangeLog> changeLogs) {
         this.changeLogs = changeLogs;
+    }
+
+    public Boolean addDeveloper(Developer developer) {
+        return developers.add(developer);
+    }
+
+    public Boolean removeDeveloper(Developer developer) {
+        return this.developers.remove(developer);
     }
 }
