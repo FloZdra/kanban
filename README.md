@@ -49,11 +49,3 @@ Project will be launched without any input at session 1.
 At session 3, a Maven project with functional service, data and domain layer will be provided, to provide appropriate layers for implementing controllers.
 
 At session 4, a functional back-end will be provided, to provide appropriate layers for implementing front-end. 
-
-# Output
-
-The expected deliverable will be Git repo or a zip of your source code, with all your source files.
-
-Send the URL of the Git repo or the zip by mail to your teacher : remy.girodon@gmail.com
-
-Please send it at the end of session 2, then at the end of session 3, then at the end of session 5.
