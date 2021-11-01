@@ -22,6 +22,26 @@ class DeveloperTests {
     private DeveloperDao developerDao;
 
     /**
+     * Test findAll() method of developer DAO, should return 3
+     * They are created in {@link KanbanApplication#populateDevelopers(DeveloperService)}
+     */
+    @Test
+    public void testFindAllDevelopersDao() {
+        Collection<Developer> developers = developerDao.findAll();
+        assertEquals(3, developers.size());
+    }
+
+    /**
+     * Test findAll() method of developer service, should return 3
+     * They are created in {@link KanbanApplication#populateDevelopers(DeveloperService)}
+     */
+    @Test
+    public void testFindAllDevelopersService() {
+        Collection<Developer> developers = developerService.findAllDevelopers();
+        assertEquals(3, developers.size());
+    }
+
+    /**
      * Create a developer, then delete it
      *
      * @see DeveloperService#createDeveloper(Developer)
@@ -51,7 +71,7 @@ class DeveloperTests {
 
 
         // Test find developer
-        Optional<Developer> developerFound = developerService.getDeveloperById(developer.getId());
+        Optional<Developer> developerFound = developerService.findDeveloperById(developer.getId());
 
         assertTrue(developerFound.isPresent());
         assertEquals(developer.getFirstname(), developerFound.get().getFirstname());
@@ -60,14 +80,5 @@ class DeveloperTests {
         developerService.deleteDeveloper(developer.getId());
     }
 
-    /**
-     * Find all developers, should return 3
-     * They are created in {@link KanbanApplication#populateDevelopers(DeveloperService)}
-     */
-    @Test
-    public void testFindAllDevelopers() {
-        Collection<Developer> developersFound = developerService.getDevelopers();
-        assertEquals(3, developersFound.size());
-    }
 
 }

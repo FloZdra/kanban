@@ -2,6 +2,7 @@ package org.flozdra.kanban.models;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +21,6 @@ public class Task {
     private Date created;
 
     @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-    @JoinTable
     private Set<Developer> developers;
 
     @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
@@ -40,6 +40,7 @@ public class Task {
         this.nbHoursForecast = nbHoursForecast;
         this.nbHoursReal = nbHoursReal;
         this.created = created;
+        this.developers = new HashSet<>();
     }
 
     public Long getId() {

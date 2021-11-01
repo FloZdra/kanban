@@ -13,15 +13,15 @@ public class DeveloperService {
     @Autowired
     private DeveloperDao developerDao;
 
+    public Collection<Developer> findAllDevelopers() {
+        return developerDao.findAll();
+    }
+
     public Developer createDeveloper(Developer developer) {
         return developerDao.save(developer);
     }
 
-    public Collection<Developer> getDevelopers() {
-        return developerDao.findAll();
-    }
-
-    public Optional<Developer> getDeveloperById(Long id) {
+    public Optional<Developer> findDeveloperById(Long id) {
         return developerDao.findById(id);
     }
 

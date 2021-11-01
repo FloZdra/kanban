@@ -3,6 +3,7 @@ package org.flozdra.kanban.services;
 import org.flozdra.kanban.dao.TaskDao;
 import org.flozdra.kanban.models.Developer;
 import org.flozdra.kanban.models.Task;
+import org.flozdra.kanban.models.TaskStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +15,51 @@ public class TaskService {
     @Autowired
     private TaskDao taskDao;
 
+    @Autowired
+    private TaskStatusService taskStatusService;
+
+    public Collection<Task> findAllTasks() {
+        return taskDao.findAll();
+    }
+
     public Task createTask(Task task) {
         return taskDao.save(task);
     }
 
-    public Collection<Task> getTasks() {
-        return taskDao.findAll();
+    public Optional<Task> findTask(Long id) {
+        return taskDao.findById(id);
     }
 
-    public Optional<Task> getTaskById(Long id) {
-        return taskDao.findById(id);
+    public Task moveRightTask(Task task) {
+        TaskStatus status = task.getStatus();
+        TaskStatus nextStatus = switch (status.getLabel()) {
+            case "Backlog" -> taskStatusService.findTaskStatusByLabel("To Do").iterator().next();
+            case "To Do" -> taskStatusService.findTaskStatusByLabel("In progress").iterator().next();
+            case "In progress" -> taskStatusService.findTaskStatusByLabel("Testing").iterator().next();
+            case "Testing" -> taskStatusService.findTaskStatusByLabel("Done").iterator().next();
+            default -> null;
+        };
+        if (nextStatus != null) {
+            task.setStatus(nextStatus);
+            return taskDao.save(task);
+        }
+        return task;
+    }
+
+    public Task moveLeftTask(Task task) {
+        TaskStatus status = task.getStatus();
+        TaskStatus previousStatus = switch (status.getLabel()) {
+            case "Done" -> taskStatusService.findTaskStatusByLabel("Testing").iterator().next();
+            case "Testing" -> taskStatusService.findTaskStatusByLabel("In progress").iterator().next();
+            case "In progress" -> taskStatusService.findTaskStatusByLabel("To Do").iterator().next();
+            case "To Do" -> taskStatusService.findTaskStatusByLabel("Backlog").iterator().next();
+            default -> null;
+        };
+        if (previousStatus != null) {
+            task.setStatus(previousStatus);
+            return taskDao.save(task);
+        }
+        return task;
     }
 
     public Task assignDeveloperToTask(Task task, Developer developer) {
