@@ -1,5 +1,7 @@
 package org.flozdra.kanban.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,14 +13,16 @@ public class ChangeLog {
 
     private Date occurred;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Task task;
 
-    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     private TaskStatus source;
 
-
-    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     private TaskStatus target;
 
     public ChangeLog() {

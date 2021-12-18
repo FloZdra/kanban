@@ -1,6 +1,8 @@
 package org.flozdra.kanban.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -12,12 +14,16 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Title is required")
     private String title;
 
+    @NotNull(message = "NbHoursForecast is required")
     private Integer nbHoursForecast;
 
+    @NotNull(message = "NbHoursReal is required")
     private Integer nbHoursReal;
 
+    @Temporal(TemporalType.DATE)
     private Date created;
 
     @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)

@@ -23,6 +23,10 @@ public class TaskService {
     }
 
     public Task createTask(Task task) {
+        // Set backlog by default
+        if (task.getStatus() == null) {
+            task.setStatus(taskStatusService.findTaskStatusByLabel("Backlog").iterator().next());
+        }
         return taskDao.save(task);
     }
 

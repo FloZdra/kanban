@@ -3,9 +3,7 @@ package org.flozdra.kanban.models;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
-// import javax.validation.constraints.Email;
-// import javax.validation.constraints.NotBlank;
-// import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Entity
 public class Developer {
@@ -13,20 +11,22 @@ public class Developer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //    @NotBlank(message="Please enter your firstname")
+    @NotBlank(message = "Firstname is required")
     private String firstname;
 
-    //    @NotBlank(message="Please enter your lastname")
+    @NotBlank(message = "Lastname is required")
     private String lastname;
 
-    //    @Size(min=5, message="Your password must be at least 5-characters long")
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, message = "Password must be at least 5-characters long")
     private String password;
 
-    //    @NotBlank(message="Please enter your email")
-    //    @Email(message="Invalid email")
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email")
     @Column(unique = true)
     private String email;
 
+    @Temporal(TemporalType.DATE)
     private Date startContract;
 
     @ManyToMany(mappedBy = "developers", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)

@@ -1,5 +1,7 @@
 package org.flozdra.kanban.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,7 +13,8 @@ public class TaskType {
 
     private String label;
 
-    @OneToMany(mappedBy = "type", cascade = CascadeType.DETACH)
+    @JsonIgnore
+    @OneToMany(mappedBy = "type", cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     private Set<Task> tasks;
 
     public TaskType() {

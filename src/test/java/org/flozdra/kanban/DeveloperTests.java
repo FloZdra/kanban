@@ -79,6 +79,4 @@ class DeveloperTests {
         // Delete it
         developerService.deleteDeveloper(developer.getId());
     }
-
-
 }
